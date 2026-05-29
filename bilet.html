@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Покупка билета</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bilet-page">
+    <div class="bilet-body">
+        <div class="form-container">
+        <h2 class="bilet-h2">Заказать билет</h2>
+        <form id="contactForm" novalidate>
+            
+            <div class="form-group">
+            <label for="fullname" class="bilet-label">ФИО</label>
+            <input type="text" id="fullname" name="fullname" required>
+            <div class="error" id="fullnameError"></div>
+            </div>
+
+            <div class="form-group">
+            <label for="email" class="bilet-label">Почта</label>
+            <input type="email" id="email" name="email" required>
+            <div class="error" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+            <label for="phone" class="bilet-label">Телефон</label>
+            <input type="tel" id="phone" name="phone" placeholder="+7XXXXXXXXXX" required>
+            <div class="error" id="phoneError"></div>
+            </div>
+
+            <div class="form-group">
+            <label for="bilet" class="bilet-label">Билет</label>
+            <select id="bilet" name="bilet" required>
+                <option value="">Выберите тип билета</option>
+                <option value="bilet-det">Детский (200руб)</option>
+                <option value="bilet-sch">Школьный (350руб)</option>
+                <option value="bilet-stud">Студенческий (400руб)</option>
+                <option value="bilet-adult">Взрослый (500руб)</option>
+                <option value="bilet-pens">Пенсионерам (350руб)</option>
+            </select>
+            <div class="error" id="biletError"></div>
+            </div>
+
+            <div class="form-group">
+            <label for="card" class="bilet-label">Данные карты</label>
+            <textarea id="card" name="card" placeholder="Введите данные карты..." required></textarea>
+            <div class="error" id="cardError"></div>
+            </div>
+
+            <button type="submit" class="bilet-button">Оплатить</button>
+        </form>
+        </div>
+</div>
+</div>
+        <script>
+        const form = document.getElementById('contactForm');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let valid = true;
+
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const bilet = document.getElementById('bilet').value;
+            const card = document.getElementById('card').value.trim();
+
+            if (fullname.length < 5) {
+            document.getElementById('fullnameError').textContent = 'Введите полное ФИО.';
+            valid = false;
+            }
+
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!emailPattern.test(email)) {
+            document.getElementById('emailError').textContent = 'Введите корректную почту.';
+            valid = false;
+            }
+
+            const phonePattern = /^\+?[0-9]{10,15}$/;
+            if (!phonePattern.test(phone)) {
+            document.getElementById('phoneError').textContent = 'Введите корректный номер телефона.';
+            valid = false;
+            }
+
+            if (!bilet) {
+            document.getElementById('biletError').textContent = 'Выберите тип билета.';
+            valid = false;
+            }
+            
+            if (!/^\d*$/.test(card)) {
+            document.getElementById('cardError').textContent = 'Поле может содержать только цифры.';
+            valid = false;
+            }
+            else if (card.length < 10) {
+            document.getElementById('cardError').textContent = 'Поле должно содержать минимум 10 цифр.';
+            valid = false;
+            }
+
+            if (valid) {
+            alert('Форма успешно отправлена!');
+            form.reset();
+            }
+        });
+        </script>
+</body>
+</html>
